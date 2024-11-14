@@ -1,9 +1,23 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import KeyboardButton
+from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 
+def get_keyboard(
+        *btns: str,
+        placeholder: str = None,
+        sizes: tuple[int] = (2,),
+):
 
-def create_buttons_keyboard(names):
-    buttons = [[KeyboardButton(text=name)] for name in names]
-    keyboard = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
-    return keyboard
+    keyboard = ReplyKeyboardBuilder()
+
+    for _, text in enumerate(btns, start=0):
+        keyboard.add(KeyboardButton(text=text))
+
+    return keyboard.adjust(*sizes).as_markup(
+            resize_keyboard=True, input_field_placeholder=placeholder)
+
+# def create_buttons_keyboard(names):
+#     buttons = [[KeyboardButton(text=name)] for name in names]
+#     keyboard = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
+#     return keyboard
 

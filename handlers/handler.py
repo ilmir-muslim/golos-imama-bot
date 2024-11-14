@@ -1,13 +1,17 @@
 from aiogram import Router, types
 from aiogram.filters import CommandStart
-from database.orm_query import get_names_kb  # Функция для получения данных из БД
-from kbds.reply import create_buttons_keyboard  # Импорт функции клавиатуры
+from database.db_query import fetch_data  # Функция для получения данных из БД
+from kbds.reply import get_keyboard  # Импорт функции клавиатуры
 
 # Создаем роутер для обработки команд
 start_router = Router()
-db_name = 'chapter'
+
 @start_router.message(CommandStart())
-async def send_buttons(message: types.Message):
-    names = await get_names_kb(db_name=db_name)
-    keyboard = create_buttons_keyboard(names)  # Создаем клавиатуру на основе данных
-    await message.answer("Выберите опцию:", reply_markup=keyboard)
+async def send_chapter(message: types.Message):
+    names = await fetch_data('chapter')
+    keyboard = get_keyboard(
+    *names,
+    # placeholder='выберете раздел',
+    sizes=(2, ),
+) # Создаем клавиатуру на основе данных
+    await message.answer("Выберите раздел:", reply_markup=keyboard)
