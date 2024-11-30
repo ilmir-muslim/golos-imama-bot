@@ -16,8 +16,5 @@ def get_keyboard(
     return keyboard.adjust(*sizes).as_markup(
             resize_keyboard=True, input_field_placeholder=placeholder)
 
-# def create_buttons_keyboard(names):
-#     buttons = [[KeyboardButton(text=name)] for name in names]
-#     keyboard = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
-#     return keyboard
-
+def navigation_keyboard(*buttons, sizes=(2,)):
+    return get_keyboard(*buttons, "Назад", "В начало", sizes=sizes)
